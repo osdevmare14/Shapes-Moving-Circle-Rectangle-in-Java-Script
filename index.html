@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #canvasFrame {
+            border: 5px solid rgb(122, 229, 237);
+            border-radius: 5px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvasFrame" width="500" height="500"></canvas>
+    <script>
+        const canvas = document.getElementById("canvasFrame");
+        const context = canvas.getContext("2d");
+        const CANVAS_WIDTH = canvas.width = 500;
+        const CANVAS_HEIGHT = canvas.width = 500;
+        class Entity {
+            constructor({ x, y, width, height, color, radius, xVelocity = 2, yVelocity = 2 }) {
+                this.x = x;
+                this.y = y;
+                this.radius = radius;
+                this.xVelocity = xVelocity;
+                this.yVelocity = yVelocity
+                this.width = width;
+                this.height = height;
+                this.color = color;
+            }
+            drawSquare(context) {
+                context.fillStyle = this.color;
+                context.fillRect(this.x, this.y, this.width, this.height);
+            }
+            updateSquare() {
+                this.x += this.xVelocity;
+                this.y += this.yVelocity;
+                if (this.x + this.width > CANVAS_WIDTH || this.x < 0) {
+                    this.xVelocity *= -1;
+                }
+                if (this.y + this.height > CANVAS_HEIGHT || this.y < 0) {
+                    this.yVelocity *= -1;
+                }
+            }
+            drawCircle(context) {
+                context.beginPath();
+                context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                context.fillStyle = this.color;
+                context.fill();
+            }
+            updateCircle() {
+                this.x += this.xVelocity;
+                this.y += this.yVelocity;
+                if (this.x + this.radius > CANVAS_WIDTH || this.x - this.radius < 0) {
+                    this.xVelocity *= -1;
+                }
+                if (this.y + this.radius > CANVAS_HEIGHT || this.y - this.radius < 0) {
+                    this.yVelocity *= -1;
+                }
+            }
+
+        }
+        function randomPos() {
+            return Math.random() * CANVAS_WIDTH;
+        }
+        const pos = randomPos();
+        const player1 = new Entity({ x: 60, y: 60, width: 60, height: 60, color: 'red', radius: 50, xVelocity: 3, yVelocity: 7 });
+        const player2 = new Entity({ x: 120, y: 120, width: 60, height: 60, color: 'green', radius: 50 });
+        const player3 = new Entity({ x: pos, y: pos, width: 60, height: 60, color: 'pink', radius: 50 });
+        function animate() {
+            context.fillStyle = 'blue';
+            context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            player1.drawCircle(context);
+            player2.drawSquare(context);
+            player3.drawSquare(context);
+            player1.updateCircle();
+            player2.updateSquare();
+            player3.updateSquare();
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+
+</html>
