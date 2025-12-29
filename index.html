@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Shapes Moving In Html and Javascript</title>
     <style>
         #canvasFrame {
-            border: 5px solid rgb(122, 229, 237);
             border-radius: 5px;
             position: absolute;
             top: 50%;
@@ -85,7 +84,7 @@
             player1.updateCircle();
             player2.updateSquare();
             player3.updateSquare();
-            requestAnimationFrame(animate);
+            window.requestAnimationFrame(animate);
         }
         animate();
     </script>
